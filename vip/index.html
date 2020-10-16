@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIP解析</title>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    padding: 16px;
+    background-image: url(./image/bj.png);
+  }
+
+  .main {
+    max-width: 800px;
+    width: 100%;
+    margin: 60px auto;
+  }
+
+  .video-btn {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 16px;
+  }
+</style>
+
+<body>
+  <div id="app">
+    <div class="main">
+      <el-form ref="form" :model="form">
+        <el-form-item label="选择接口">
+          <el-select style="width: 100%;" v-model="form.region" placeholder="请选择解析接口">
+            <el-option v-for="item in vipJson" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="播放地址">
+          <el-input v-model="form.vipUrl" placeholder="输入播放地址 如：http://v.qq.com/tv/p/topic/gcdjjgc/index.html">
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button style="width: 100%;" type="primary" @click="onSubmit">解析</el-button>
+        </el-form-item>
+      </el-form>
+      <el-row>
+        <a v-for="item in videoJson" :href="item.value" class="video-btn" target="_blank">
+          <el-button size="medium" round>{{item.label}}</el-button>
+        </a>
+      </el-row>
+    </div>
+  </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  var vipObj = {
+    OK解析: 'https://okjx.cc/?url=',
+    高清蓝光解析: 'https://py.ha12.xyz/sos/index.php?url=',
+    思古解析: 'https://jsap.attakids.com/?url=',
+    思古视频服务: 'https://api.sigujx.com/?url=',
+    '91视频解析': 'https://www.91jxs.com/jiexi/?url=',
+    小野马解析: 'https://www.xymav.com/?url=',
+    诺讯智能解析: 'https://www.nxflv.com/?url=',
+    '我爱解析(腾讯直解无广告通用)': 'https://vip.52jiexi.top/?url=',
+    '月亮云解析(http)': 'http://api.yueliangjx.com/?url=',
+    全网解析: 'https://jx.elwtc.com/vip/?url=',
+    '2A解析(http)': 'http://www.2ajx.com/vip.php?url=',
+    '2A解析(https)': 'https://www.2ajx.com/vip.php?url=',
+    '小蒋极致云(记忆播放)': 'https://www.kpezp.cn/jlexi.php?url=',
+    小狼云解析: 'https://jx.f41.cc/?url=',
+    ckmov解析: 'https://www.ckmov.vip/api.php?url=',
+    m1907: 'https://z1.m1907.cn/?jx=',
+    '98解析': 'https://jx.youyitv.com/?url=',
+    '17云': 'https://www.1717yun.com/jx/ty.php?url=',
+    yj解析: 'https://cdn.yangju.vip/k/?url=',
+    简傲云: 'https://vip.jaoyun.com/index.php?url=',
+    豪华啦解析: 'https://api.lhh.la/vip/?url=',
+    mw解析: 'https://jx.mw0.cc/?url=',
+    '黑云解析': 'https://jiexi.380k.com/?url=',
+  };
+  var vipJson = Object.keys(vipObj).map(function (key) {
+    return {
+      label: key,
+      value: vipObj[key],
+    }
+  })
+  var videoObj = {
+    腾讯视频: 'https://film.qq.com',
+    爱奇艺视频: 'https://vip.iqiyi.com/',
+    搜狐视频: 'https://tv.sohu.com/movie/',
+    优酷视频: 'https://www.youku.com/',
+  }
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        vipJson: vipJson,
+        videoJson: Object.keys(videoObj).map(function (key) {
+          return {
+            label: key,
+            value: videoObj[key],
+          }
+        }),
+        form: {
+          vipUrl: '',
+          region: vipJson[0].value,
+        },
+      }
+    },
+    methods: {
+      onSubmit() {
+        if (this.form.vipUrl && this.form.region) {
+          const url = this.form.region + this.form.vipUrl
+          window.open(url);
+        } else {
+          this.$message({
+            message: '请输入播放地址',
+            type: 'warning'
+          });
+        }
+      }
+    }
+  })
+</script>
+
+</html>
